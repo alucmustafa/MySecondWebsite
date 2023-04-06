@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles2.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="index.html" />
+    <script
+      src="https://kit.fontawesome.com/ab2ef2fa79.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <section id="login">
+      <div class="container-login">
+        <h3 class="baslık">M & SAVE</h3>
+        <h2 style="font-size: 20px; color: rgb(196, 190, 180)">
+          Cüzdanın bizimle güvende...<i
+            class="fa-regular fa-face-smile-wink"
+          ></i>
+        </h2>
+        <br /><br />
+        <p style="font-size: 18px; color: white">
+          Kullanıcı giriş ekranına hoş geldiniz.
+          <br />
+          Lütfen kullanıcı adı ve şifrenizi giriniz
+        </p>
+        <div class="login-enter">
+          <label for="name">Kullanıcı adı</label>
+          <input
+            type="text"
+            class="login-name-control"
+            name="name"
+            id="name"
+            placeholder="Boş bırakılmaz"
+          />
+
+          <label for="password">şifre</label>
+          <input
+            type="password"
+            class="login-passwrod-control"
+            name="password"
+            id="password"
+            placeholder="Lütfen şifrenizi giriniz..."
+          />
+          <div class="button-login-enter">
+            <button
+              type="submit"
+              class="btn1 login-control-btn"
+              id="loginEnter"
+            >
+              Giriş yap</button
+            ><button class="btn1"><a href="register.html" style="text-decoration: none;color: white;">Kayıt ol</a></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      //fetch() api kullanarak  json veri içinde kontol yapacağız...
+
+      function datakontol() {
+        let ka = document.querySelector("#name");
+        let si = document.querySelector("#password");
+
+        fetch("veri.json")
+          .then((response) => response.json())
+          .then((veri) => veri.customers)
+          .then((customers) => {
+            var kontol = false;
+            for (let i = 0; i <= customers.length; i++) {
+              if (customers[i].customerKa == ka.value) {
+                if (customers[i].customerPsw == si.value) {
+                  kontol = true;
+                  break;
+                }
+              }
+            }
+            if (kontol) {
+              alert(
+                " Giriş yapılıyor....Hoş geldiniz. ..." + ka.value + "   :)"
+              );
+            }
+          })
+          .catch(
+            //hatayı yakalamak için customerKa ve customerPsw eşit olmayacğı için hata verecek...
+            (err) => {
+              alert(" Hatalı giriş yaptınız tekrar deneyiniz.....");
+              ka.classList.add("warning");
+              si.classList.add("warning");
+            }
+          );
+      }
+
+      let ka = document.querySelector("#name");
+      let si = document.querySelector("#password");
+
+      ka.addEventListener("focus", () => ka.classList.remove("warning"));
+
+      si.addEventListener("focus", () => si.classList.remove("warning"));
+
+      document.querySelector("#loginEnter").addEventListener("click", () => {
+        datakontol();
+      });
+    </script>
+  </body>
+</html>
